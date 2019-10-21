@@ -1,0 +1,315 @@
+swagger: "2.0"
+info:
+  title: Messages
+  description: Створити сервіс коротких (404 символи) заміток (із тегами) для кожного користувача із можливістю перегляду, редагування і видалення, а також надавати доступ редагувати замітку іншими користувачами (до 5 користувачів). Також надати можливість бачити статистику користувача, скільки повідомлень, коли редаговані і ким. .
+  contact:
+    name: Vladyslav Pasemko
+    email: vpasemko@gmail.com
+  version: "1.0"
+host: "localhost:5000"
+basePath: "/api/v1.0/"
+tags:
+- name: "users"
+  description: "Все про користувачів"
+- name: "messages"
+  description: "Повідомлення"
+schemes:
+- "https"
+- "http"
+paths:
+  /users:
+    get:
+      tags:
+      - "users"
+      summary: "Отримання даних про користувачів"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Об'єкт користувача"
+          schema:
+            $ref: "#/definitions/User"
+    post:
+      tags:
+      - "users"
+      summary: "Створення нового користувача"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Об'єкт користувача"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Об'єкт користувача"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Bad data"
+        401:
+          description: "Unauthorized"
+        406:
+          description: "Not Acceptable"
+  /users/{id}:
+    get:
+      tags:
+      - "users"
+      summary: "Отримання даних про користувача"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Об'єкт користувача"
+          schema:
+            $ref: "#/definitions/User"
+        404:
+          description: "Not Found"
+    put:
+      tags:
+      - "users"
+      summary: "Оновлення даних"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Об'єкт користувача"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Об'єкт користувача"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Bad data"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        406:
+          description: "Not Acceptable"
+    delete:
+      tags:
+      - "users"
+      summary: "Видалення користувача"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Успішне видалення"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        406:
+          description: "Not Acceptable"
+  /messages:
+    get:
+      tags:
+      - "messages"
+      summary: "Отримання повідомлень"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "Об'єкт повідомлення"
+          schema:
+            $ref: "#/definitions/Message" 
+    post:
+      tags:
+      - "messages"
+      summary: "Створення нового повідомлення"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Об'єкт повідомлення"
+        required: true
+        schema:
+          $ref: "#/definitions/Message"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Об'єкт повідомлення"
+          schema:
+            $ref: "#/definitions/Message"
+        400:
+          description: "Bad data"
+        401:
+          description: "Unauthorized"
+        406:
+          description: "Not Acceptable"
+  /messages/{id}:
+    get:
+      tags:
+      - "messages"
+      summary: "Отримання даних про повідомлення"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "Об'єкт повідомлення"
+          schema:
+            $ref: "#/definitions/Message"
+        404:
+          description: "Not Found"
+    put:
+      tags:
+      - "messages"
+      summary: "Оновлення даних"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Об'єкт повідомлення"
+        required: true
+        schema:
+          $ref: "#/definitions/Message"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Об'єкт повідомлення"
+          schema:
+            $ref: "#/definitions/Message"
+        400:
+          description: "Bad data"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        406:
+          description: "Not Acceptable"
+    delete:
+      tags:
+      - "messages"
+      summary: "Видалення повідомлення"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "унікальний ідентифікатор"
+        required: true
+        type: "integer"
+      - in: "header"
+        type: "string"
+        name: "api_key"
+        required: true
+        description: "індивідуальний ключ користувача"
+      responses:
+        200:
+          description: "Успішне видалення"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not Found"
+        406:
+          description: "Not Acceptable"
+          
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      count_messages:
+        type: "integer"
+        format: "int64"
+  Message:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      creator_id:
+        type: "integer"
+        format: "int64"
+      date:
+        type: "string"
+        format: "date-time"
+      text:
+        type: "string"
+      tags:
+        type: "string"
+      
